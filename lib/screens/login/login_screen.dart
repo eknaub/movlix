@@ -26,7 +26,8 @@ class _LoginScreenState extends State<LoginScreen> {
       home: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("images/wallpaper.png"), fit: BoxFit.cover),
+              image: AssetImage("assets/images/wallpaper.png"),
+              fit: BoxFit.cover),
         ),
         child: Scaffold(
           backgroundColor: Colors.transparent,
