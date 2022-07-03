@@ -22,57 +22,55 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/wallpaper.png"),
-              fit: BoxFit.cover),
-        ),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: showForgotPassword
-              ? CenteredContainer(
-                  child: ForgotPassword(
-                    onBackPressed: () {
-                      setState(
-                        () {
-                          showForgotPassword = false;
-                        },
-                      );
-                    },
-                  ),
-                )
-              : DefaultTabController(
-                  length: tabItems.length,
-                  child: CenteredContainer(
-                    child: Padding(
-                      padding: const EdgeInsets.all(36.0),
-                      child: Column(
-                        children: [
-                          CustomTabBar(tabItems: tabItems),
-                          Flexible(
-                            child: TabBarView(
-                              children: [
-                                LoginTab(
-                                  onForgotPasswordPressed: () {
-                                    setState(
-                                      () {
-                                        showForgotPassword = true;
-                                      },
-                                    );
-                                  },
-                                ),
-                                const SignupTab(),
-                              ],
-                            ),
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage("assets/images/wallpaper.png"),
+            fit: BoxFit.cover),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: showForgotPassword
+            ? CenteredContainer(
+                child: ForgotPassword(
+                  onBackPressed: () {
+                    setState(
+                      () {
+                        showForgotPassword = false;
+                      },
+                    );
+                  },
+                ),
+              )
+            : DefaultTabController(
+                length: tabItems.length,
+                child: CenteredContainer(
+                  child: Padding(
+                    padding: const EdgeInsets.all(36.0),
+                    child: Column(
+                      children: [
+                        CustomTabBar(tabItems: tabItems),
+                        Flexible(
+                          child: TabBarView(
+                            children: [
+                              LoginTab(
+                                onForgotPasswordPressed: () {
+                                  setState(
+                                    () {
+                                      showForgotPassword = true;
+                                    },
+                                  );
+                                },
+                              ),
+                              const SignupTab(),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-        ),
+              ),
       ),
     );
   }
