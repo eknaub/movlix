@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:movlix/screens/movies/movie_main_screen.dart';
+import 'package:movlix/screens/login/login_screen.dart';
 import 'package:movlix/utils/constants.dart';
 
 import 'firebase_options.dart';
@@ -20,26 +20,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Movlix',
       theme: ThemeData().copyWith(
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            primary: Colors.purple.shade800,
-            padding: const EdgeInsets.all(24.0),
-            textStyle:
-                const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
-            ),
-            fixedSize: const Size.fromWidth(150),
-          ),
-        ),
         drawerTheme: const DrawerThemeData(
           backgroundColor: kDrawerColor,
         ),
         scaffoldBackgroundColor: kScaffoldColor,
       ),
-      home: const MovieScreen(),
+      home: const LoginScreen(),
     );
   }
 }

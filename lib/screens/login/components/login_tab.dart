@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:movlix/screens/movies/movie_main_screen.dart';
+import 'package:movlix/services/firebase_auth_service.dart';
 import 'package:movlix/utils/constants.dart';
 import 'package:movlix/widgets/email_form_field.dart';
 import 'package:movlix/widgets/password_form_field.dart';
+import 'package:movlix/widgets/rounded_elevated_button.dart';
 
 class LoginTab extends StatefulWidget {
   final Function onForgotPasswordPressed;
@@ -13,9 +18,12 @@ class LoginTab extends StatefulWidget {
 }
 
 class _LoginTabState extends State<LoginTab> {
+  final FirebaseAuthService _auth = FirebaseAuthService();
   late TextEditingController emailController;
   late TextEditingController passwordController;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  String? errorMsg;
 
   @override
   void initState() {
@@ -78,6 +86,19 @@ class _LoginTabState extends State<LoginTab> {
             const SizedBox(
               height: 12.0,
             ),
+            errorMsg != null && errorMsg!.isNotEmpty
+                ? Center(
+                    child: Text(
+                      errorMsg ?? '',
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  )
+                : Container(),
+            errorMsg != null && errorMsg!.isNotEmpty
+                ? const SizedBox(
+                    height: 24.0,
+                  )
+                : Container(),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -96,16 +117,83 @@ class _LoginTabState extends State<LoginTab> {
             const SizedBox(
               height: 24.0,
             ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  if (formKey.currentState != null &&
-                      formKey.currentState!.validate()) {
-                    print('ok');
-                  }
-                },
-                child: const Text('Login'),
-              ),
+            Column(
+              children: [
+                Center(
+                  child: RoundedElevatedButton(
+                    title: 'Login',
+                    color: Colors.purple.shade800,
+                    onPressed: () async {
+                      if (kDebugMode) {
+                        if (formKey.currentState != null &&
+                            formKey.currentState!.validate()) {
+                          try {
+                            final user = await _auth.signInWithEmailAndPassword(
+                                email: emailController.text,
+                                password: passwordController.text);
+                            if (user != null) {
+                              if (!mounted) return;
+                              emailController.text = '';
+                              passwordController.text = '';
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          const MovieScreen(),
+                                  transitionDuration: Duration.zero,
+                                  reverseTransitionDuration: Duration.zero,
+                                ),
+                              );
+                            }
+                          } on FirebaseAuthException catch (e) {
+                            setState(
+                              () {
+                                errorMsg = e.message;
+                              },
+                            );
+                          }
+                        }
+                      }
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 12.0,
+                ),
+                Center(
+                  child: TextButton(
+                    onPressed: () async {
+                      try {
+                        final user = await _auth.signInAnonymously();
+                        if (user != null) {
+                          if (!mounted) return;
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation1, animation2) =>
+                                  const MovieScreen(),
+                              transitionDuration: Duration.zero,
+                              reverseTransitionDuration: Duration.zero,
+                            ),
+                          );
+                        }
+                      } on FirebaseAuthException catch (e) {
+                        setState(
+                          () {
+                            errorMsg = e.message;
+                          },
+                        );
+                      }
+                    },
+                    child: const Text(
+                      'Login anonymously',
+                      style: TextStyle(
+                          color: Colors.purple, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                )
+              ],
             ),
           ],
         ),

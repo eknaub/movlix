@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:movlix/models/drawer_item.dart';
+import 'package:movlix/models/drawer_items.dart';
+import 'package:movlix/models/my_app_user.dart';
 import 'package:movlix/screens/movies/components/custom_drawer_header.dart';
 import 'package:movlix/screens/movies/components/custom_drawer_item.dart';
 import 'package:movlix/screens/movies/components/custom_drawer_title.dart';
+import 'package:movlix/services/firebase_auth_service.dart';
 import 'package:movlix/utils/constants.dart';
 
 class MovieScreen extends StatefulWidget {
@@ -13,68 +16,26 @@ class MovieScreen extends StatefulWidget {
 }
 
 class _MovieScreenState extends State<MovieScreen> {
+  final FirebaseAuthService _auth = FirebaseAuthService();
+  MyAppUser? loggedInUser;
+
   int selectedMenuIndex = 0;
   int selectedLibraryIndex = -1;
   int selectedGeneralIndex = -1;
+  List<DrawerItem> menuItems = DrawerItems.getMenuItems();
+  List<DrawerItem> libraryItems = DrawerItems.getLibraryItems();
+  List<DrawerItem> generalItems = DrawerItems.getGeneralItems();
 
-  List<DrawerItem> menuItems = const [
-    DrawerItem(
-      title: 'Home',
-      iconData: Icons.home_outlined,
-      selectedIconData: Icons.home,
-    ),
-    DrawerItem(
-      title: 'Discovery',
-      iconData: Icons.find_in_page_outlined,
-      selectedIconData: Icons.find_in_page,
-    ),
-    DrawerItem(
-      title: 'Community',
-      iconData: Icons.people_outline,
-      selectedIconData: Icons.people,
-    ),
-    DrawerItem(
-      title: 'Coming soon',
-      iconData: Icons.timer_outlined,
-      selectedIconData: Icons.timer,
-    ),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
 
-  List<DrawerItem> libraryItems = const [
-    DrawerItem(
-      title: 'Recent',
-      iconData: Icons.access_time_outlined,
-      selectedIconData: Icons.access_time_filled,
-    ),
-    DrawerItem(
-      title: 'Bookmarked',
-      iconData: Icons.bookmark_border_outlined,
-      selectedIconData: Icons.bookmark,
-    ),
-    DrawerItem(
-      title: 'Top rated',
-      iconData: Icons.star_border_outlined,
-      selectedIconData: Icons.star,
-    ),
-    DrawerItem(
-      title: 'Downloaded',
-      iconData: Icons.download_outlined,
-      selectedIconData: Icons.download,
-    ),
-  ];
-
-  List<DrawerItem> generalItems = const [
-    DrawerItem(
-      title: 'Settings',
-      iconData: Icons.settings_outlined,
-      selectedIconData: Icons.settings,
-    ),
-    DrawerItem(
-      title: 'Log out',
-      iconData: Icons.logout_outlined,
-      selectedIconData: Icons.logout,
-    ),
-  ];
+  void getCurrentUser() async {
+    loggedInUser = await _auth.currentUser();
+    print(loggedInUser?.email);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -168,6 +129,32 @@ class _MovieScreenState extends State<MovieScreen> {
                     );
                   },
                 ),
+                const SizedBox(
+                  height: 12.0,
+                ),
+                ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.logout,
+                    color: kGreyColor,
+                  ),
+                  label: const Text(
+                    'Log out',
+                    style: TextStyle(
+                      color: kGreyColor,
+                      fontSize: 20.0,
+                    ),
+                  ),
+                  onPressed: () async {
+                    await _auth.signOut();
+                    if (!mounted) return;
+                    Navigator.pop(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: kDrawerColor,
+                    onPrimary: kScaffoldColor,
+                    shadowColor: Colors.transparent,
+                  ),
+                )
               ],
             ),
           ),

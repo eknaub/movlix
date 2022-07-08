@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:movlix/services/firebase_auth_service.dart';
 import 'package:movlix/utils/constants.dart';
 import 'package:movlix/widgets/email_form_field.dart';
+import 'package:movlix/widgets/rounded_elevated_button.dart';
 
 class ForgotPassword extends StatefulWidget {
   final Function onBackPressed;
@@ -13,8 +17,11 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
+  final FirebaseAuthService _auth = FirebaseAuthService();
   late TextEditingController emailController;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  String? errorMsg;
 
   @override
   void initState() {
@@ -84,15 +91,40 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             const SizedBox(
               height: 24.0,
             ),
+            errorMsg != null && errorMsg!.isNotEmpty
+                ? Center(
+                    child: Text(
+                      errorMsg ?? '',
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  )
+                : Container(),
+            errorMsg != null && errorMsg!.isNotEmpty
+                ? const SizedBox(
+                    height: 24.0,
+                  )
+                : Container(),
             Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  if (formKey.currentState != null &&
-                      formKey.currentState!.validate()) {
-                    print("OK");
+              child: RoundedElevatedButton(
+                title: 'Reset',
+                color: Colors.purple.shade800,
+                onPressed: () async {
+                  if (kDebugMode) {
+                    if (formKey.currentState != null &&
+                        formKey.currentState!.validate()) {
+                      try {
+                        await _auth.sendPasswordResetEmail(
+                            email: emailController.text);
+                      } on FirebaseAuthException catch (e) {
+                        setState(
+                          () {
+                            errorMsg = e.message;
+                          },
+                        );
+                      }
+                    }
                   }
                 },
-                child: const Text('Reset'),
               ),
             ),
             const SizedBox(

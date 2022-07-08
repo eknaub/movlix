@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:movlix/screens/movies/movie_main_screen.dart';
+import 'package:movlix/services/firebase_auth_service.dart';
 import 'package:movlix/utils/constants.dart';
 import 'package:movlix/widgets/email_form_field.dart';
 import 'package:movlix/widgets/password_form_field.dart';
+import 'package:movlix/widgets/rounded_elevated_button.dart';
 
 class SignupTab extends StatefulWidget {
   const SignupTab({
@@ -13,10 +18,13 @@ class SignupTab extends StatefulWidget {
 }
 
 class _SignupTabState extends State<SignupTab> {
+  final FirebaseAuthService _auth = FirebaseAuthService();
   late TextEditingController emailController;
   late TextEditingController passwordController;
   late TextEditingController repeatPasswordController;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  String? errorMsg;
 
   @override
   void initState() {
@@ -88,18 +96,70 @@ class _SignupTabState extends State<SignupTab> {
             const SizedBox(
               height: 12.0,
             ),
-            const SizedBox(
-              height: 24.0,
-            ),
+            errorMsg != null && errorMsg!.isNotEmpty
+                ? Center(
+                    child: Text(
+                      errorMsg ?? '',
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  )
+                : Container(),
+            errorMsg != null && errorMsg!.isNotEmpty
+                ? const SizedBox(
+                    height: 24.0,
+                  )
+                : Container(),
             Center(
-              child: ElevatedButton(
-                onPressed: () {
+              child: RoundedElevatedButton(
+                title: 'Sign up',
+                color: Colors.purple.shade800,
+                onPressed: () async {
+                  setState(
+                    () {
+                      errorMsg = '';
+                    },
+                  );
                   if (formKey.currentState != null &&
                       formKey.currentState!.validate()) {
-                    print("OK");
+                    bool passwordsMatch = passwordController.text ==
+                        repeatPasswordController.text;
+                    if (passwordsMatch) {
+                      try {
+                        final newUser =
+                            await _auth.createUserWithEmailAndPassword(
+                                email: emailController.text,
+                                password: passwordController.text);
+                        if (newUser != null) {
+                          if (!mounted) return;
+                          emailController.text = '';
+                          passwordController.text = '';
+                          repeatPasswordController.text = '';
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              pageBuilder: (context, animation1, animation2) =>
+                                  const MovieScreen(),
+                              transitionDuration: Duration.zero,
+                              reverseTransitionDuration: Duration.zero,
+                            ),
+                          );
+                        }
+                      } on FirebaseAuthException catch (e) {
+                        setState(
+                          () {
+                            errorMsg = e.message;
+                          },
+                        );
+                      }
+                    } else {
+                      setState(
+                        () {
+                          errorMsg = 'Passwords do not match';
+                        },
+                      );
+                    }
                   }
                 },
-                child: const Text('Register'),
               ),
             ),
           ],

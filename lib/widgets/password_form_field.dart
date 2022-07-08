@@ -26,6 +26,17 @@ class PasswordFormField extends StatelessWidget {
         fillColor: kGreyColor.withOpacity(0.3),
         filled: true,
         hintStyle: const TextStyle(color: kGreyColor),
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(12),
+          ),
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: kGreyColor),
+          borderRadius: BorderRadius.all(
+            Radius.circular(12),
+          ),
+        ),
       ),
     );
   }

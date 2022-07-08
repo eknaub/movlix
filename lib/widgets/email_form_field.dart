@@ -19,12 +19,24 @@ class EmailFormField extends StatelessWidget {
             : null;
       },
       style: const TextStyle(color: Colors.white),
+      keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
         hintText: 'Email',
         suffixIcon: const Icon(Icons.email, color: kGreyColor),
         fillColor: kGreyColor.withOpacity(0.3),
         filled: true,
         hintStyle: const TextStyle(color: kGreyColor),
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(12),
+          ),
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: kGreyColor),
+          borderRadius: BorderRadius.all(
+            Radius.circular(12),
+          ),
+        ),
       ),
     );
   }
