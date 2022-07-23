@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:movlix/models/drawer_item.dart';
 import 'package:movlix/models/drawer_items.dart';
 import 'package:movlix/models/my_app_user.dart';
-import 'package:movlix/screens/movies/components/custom_drawer_header.dart';
-import 'package:movlix/screens/movies/components/custom_drawer_item.dart';
-import 'package:movlix/screens/movies/components/custom_drawer_title.dart';
+import 'package:movlix/screens/main/components/custom_drawer_header.dart';
+import 'package:movlix/screens/main/components/custom_drawer_item.dart';
+import 'package:movlix/screens/main/components/custom_drawer_title.dart';
 import 'package:movlix/services/firebase_auth_service.dart';
 import 'package:movlix/utils/constants.dart';
 
@@ -43,6 +43,7 @@ class _MovieScreenState extends State<MovieScreen> {
       body: Row(
         children: [
           Drawer(
+            width: 200,
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
@@ -159,29 +160,20 @@ class _MovieScreenState extends State<MovieScreen> {
             ),
           ),
           Expanded(
-            child: Center(
-              child: Text(
-                getSelectedWidget(),
-                style: const TextStyle(
-                  color: kGreyColor,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+            child: getSelectedWidget(),
           ),
         ],
       ),
     );
   }
 
-  String getSelectedWidget() {
+  Widget getSelectedWidget() {
     if (selectedMenuIndex != -1) {
-      return menuItems[selectedMenuIndex].title;
+      return menuItems[selectedMenuIndex].child;
     } else if (selectedLibraryIndex != -1) {
-      return libraryItems[selectedLibraryIndex].title;
+      return libraryItems[selectedLibraryIndex].child;
     } else /*(selectedGeneralIndex != -1)*/ {
-      return generalItems[selectedGeneralIndex].title;
+      return generalItems[selectedGeneralIndex].child;
     }
   }
 }

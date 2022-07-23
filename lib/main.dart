@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:movlix/screens/login/login_screen.dart';
+import 'package:movlix/screens/main/movie_main_screen.dart';
 import 'package:movlix/utils/constants.dart';
 
 import 'firebase_options.dart';
@@ -27,7 +27,8 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: kScaffoldColor,
       ),
-      home: const LoginScreen(),
+      home: const MovieScreen(),
+      //const LoginScreen(),
     );
   }
 }
