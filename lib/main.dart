@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:movlix/screens/login/login_screen.dart';
 import 'package:movlix/screens/main/movie_main_screen.dart';
 import 'package:movlix/utils/constants.dart';
 
@@ -27,8 +29,16 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: kScaffoldColor,
       ),
-      home: const MovieScreen(),
-      //const LoginScreen(),
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.userChanges(),
+        initialData: FirebaseAuth.instance.currentUser,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const MovieScreen();
+          }
+          return const LoginScreen();
+        },
+      ),
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movlix/models/movie.dart';
 import 'package:movlix/services/movie_service.dart';
 import 'package:movlix/widgets/default_movie_view.dart';
-import 'package:movlix/widgets/movie_card_big.dart';
+import 'package:movlix/widgets/movie_card.dart';
 import 'package:movlix/widgets/movie_sliver_grid.dart';
 
 class Upcoming extends StatefulWidget {

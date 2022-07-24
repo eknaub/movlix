@@ -34,7 +34,7 @@ class _MovieScreenState extends State<MovieScreen> {
 
   void getCurrentUser() async {
     loggedInUser = await _auth.currentUser();
-    print(loggedInUser?.email);
+    print("Current user ${loggedInUser?.email}");
   }
 
   @override
