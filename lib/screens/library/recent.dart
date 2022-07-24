@@ -5,6 +5,7 @@ class Recent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: Read recent movies from users database and display
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(

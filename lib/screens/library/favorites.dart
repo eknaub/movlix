@@ -27,6 +27,7 @@ class _FavoritesState extends State<Favorites> {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: Read fav movies from users database and display
     return const Text(
       'Favorites',
       style: TextStyle(

@@ -27,6 +27,7 @@ class _WatchlistState extends State<Watchlist> {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: Read watchlist movies from users database and display
     return const Text(
       'Watchlist',
       style: TextStyle(

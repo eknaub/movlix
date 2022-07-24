@@ -1,40 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:movlix/models/my_app_user.dart';
-import 'package:movlix/services/firebase_auth_service.dart';
+import 'package:movlix/provider/user_movies.dart';
 import 'package:movlix/utils/constants.dart';
+import 'package:provider/provider.dart';
 
 class MovieCard extends StatefulWidget {
   const MovieCard(
       {Key? key,
+      required this.movieId,
       required this.title,
       required this.releaseDate,
       required this.rating,
-      required this.image})
+      required this.image,
+      required this.onFavPressed,
+      required this.onWatchlistPressed,
+      required this.onPlayPressed})
       : super(key: key);
 
+  final int movieId;
   final String title;
   final String releaseDate;
   final String rating;
   final String image;
+  final Function onFavPressed;
+  final Function onWatchlistPressed;
+  final Function onPlayPressed;
 
   @override
   State<MovieCard> createState() => _MovieCardState();
 }
 
 class _MovieCardState extends State<MovieCard> {
-  final FirebaseAuthService _auth = FirebaseAuthService();
-  MyAppUser? loggedInUser;
-
-  @override
-  void initState() {
-    super.initState();
-    getCurrentUser();
-  }
-
-  void getCurrentUser() async {
-    loggedInUser = await _auth.currentUser();
-  }
-
   final String baseUrl = "https://image.tmdb.org/t/p/original";
 
   bool isFavPressed = false;
@@ -42,6 +37,11 @@ class _MovieCardState extends State<MovieCard> {
 
   @override
   Widget build(BuildContext context) {
+    List favMovies = context.watch<UserMoviesProvider>().favList;
+    List watchlistMovies = context.watch<UserMoviesProvider>().watchlistList;
+
+    //TODO: Fav/Watchlist Icons
+
     return Card(
       color: kScaffoldColor,
       child: Stack(
@@ -70,8 +70,7 @@ class _MovieCardState extends State<MovieCard> {
                         setState(() {
                           isFavPressed = !isFavPressed;
                         });
-                        print(
-                            "add ${widget.title} to favorites ${loggedInUser?.email}");
+                        widget.onFavPressed();
                       },
                       child: isFavPressed
                           ? const Icon(Icons.favorite)
@@ -87,8 +86,7 @@ class _MovieCardState extends State<MovieCard> {
                         setState(() {
                           isWatchlistPressed = !isWatchlistPressed;
                         });
-                        print(
-                            "add ${widget.title} to watchlist ${loggedInUser?.email}");
+                        widget.onWatchlistPressed();
                       },
                       child: isWatchlistPressed
                           ? const Icon(Icons.remove_red_eye)
@@ -144,8 +142,7 @@ class _MovieCardState extends State<MovieCard> {
                         shape: const CircleBorder(),
                       ),
                       onPressed: () {
-                        print(
-                            "add ${widget.title} to recently played ${loggedInUser?.email}");
+                        widget.onPlayPressed();
                       },
                       child: const Icon(Icons.play_arrow),
                     ),
