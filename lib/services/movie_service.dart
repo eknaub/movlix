@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:movlix/models/movie.dart';
+import 'package:movlix/models/user_movies.dart';
 
 const String baseUrl = "https://api.themoviedb.org/3";
 const String apiKey = "a1dee4f95300a7ccb8ea185375c26fb9";
@@ -77,5 +78,62 @@ class MovieService {
     } else {
       throw Exception('Failed to load top rated movies');
     }
+  }
+
+  static Future<List<Movie>> fetchMoviesUserFavorite(
+      {required String? userEmail}) async {
+    List<dynamic> favorites = await UserMovies.getFieldDataFromDatabase(
+        userEmail: userEmail, fieldName: UserMoviesEnum.favorites);
+    List<Movie> movies = [];
+    for (var fav in favorites) {
+      String url = '$baseUrl/movie/$fav?api_key=$apiKey&language=en-US';
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        movies.add(Movie.fromJson(data));
+      } else {
+        throw Exception('Failed to load favorite movies');
+      }
+    }
+    return Future.value(movies);
+  }
+
+  static Future<List<Movie>> fetchMoviesUserWatchlist(
+      {required String? userEmail}) async {
+    List<dynamic> watchlist = await UserMovies.getFieldDataFromDatabase(
+        userEmail: userEmail, fieldName: UserMoviesEnum.watchlist);
+    List<Movie> movies = [];
+    for (var fav in watchlist) {
+      String url = '$baseUrl/movie/$fav?api_key=$apiKey&language=en-US';
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        movies.add(Movie.fromJson(data));
+      } else {
+        throw Exception('Failed to load watchlist movies');
+      }
+    }
+    return Future.value(movies);
+  }
+
+  static Future<List<Movie>> fetchMoviesUserRecent(
+      {required String? userEmail}) async {
+    List<dynamic> recent = await UserMovies.getFieldDataFromDatabase(
+        userEmail: userEmail, fieldName: UserMoviesEnum.recent);
+    List<Movie> movies = [];
+    for (var fav in recent) {
+      String url = '$baseUrl/movie/$fav?api_key=$apiKey&language=en-US';
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        movies.add(Movie.fromJson(data));
+      } else {
+        throw Exception('Failed to load recent movies');
+      }
+    }
+    return Future.value(movies);
   }
 }

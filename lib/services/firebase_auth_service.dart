@@ -14,6 +14,10 @@ class FirebaseAuthService {
     );
   }
 
+  Stream<MyAppUser?> get user {
+    return _firebaseAuth.userChanges().map(_userFromFirebase);
+  }
+
   Future<MyAppUser?> signInAnonymously() async {
     final UserCredential userCredential =
         await _firebaseAuth.signInAnonymously();

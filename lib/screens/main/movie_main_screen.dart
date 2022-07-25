@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movlix/models/drawer_item.dart';
 import 'package:movlix/models/drawer_items.dart';
-import 'package:movlix/models/my_app_user.dart';
 import 'package:movlix/screens/main/components/custom_drawer_header.dart';
 import 'package:movlix/screens/main/components/custom_drawer_item.dart';
 import 'package:movlix/screens/main/components/custom_drawer_title.dart';
@@ -17,7 +16,6 @@ class MovieScreen extends StatefulWidget {
 
 class _MovieScreenState extends State<MovieScreen> {
   final FirebaseAuthService _auth = FirebaseAuthService();
-  MyAppUser? loggedInUser;
 
   int selectedMenuIndex = 0;
   int selectedLibraryIndex = -1;
@@ -25,17 +23,6 @@ class _MovieScreenState extends State<MovieScreen> {
   List<DrawerItem> menuItems = DrawerItems.getMenuItems();
   List<DrawerItem> libraryItems = DrawerItems.getLibraryItems();
   List<DrawerItem> generalItems = DrawerItems.getGeneralItems();
-
-  @override
-  void initState() {
-    super.initState();
-    getCurrentUser();
-  }
-
-  void getCurrentUser() async {
-    loggedInUser = await _auth.currentUser();
-    print("Current user ${loggedInUser?.email}");
-  }
 
   @override
   Widget build(BuildContext context) {

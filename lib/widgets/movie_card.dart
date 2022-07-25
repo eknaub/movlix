@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movlix/utils/constants.dart';
 
-class MovieCard extends StatefulWidget {
+class MovieCard extends StatelessWidget {
   const MovieCard(
       {Key? key,
       required this.movieId,
@@ -23,15 +23,7 @@ class MovieCard extends StatefulWidget {
   final Function onWatchlistPressed;
   final Function onPlayPressed;
 
-  @override
-  State<MovieCard> createState() => _MovieCardState();
-}
-
-class _MovieCardState extends State<MovieCard> {
   final String baseUrl = "https://image.tmdb.org/t/p/original";
-
-  bool isFavPressed = false;
-  bool isWatchlistPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +36,7 @@ class _MovieCardState extends State<MovieCard> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                  image: NetworkImage(baseUrl + widget.image),
-                  fit: BoxFit.fill),
+                  image: NetworkImage(baseUrl + image), fit: BoxFit.fill),
             ),
           ),
           Padding(
@@ -62,14 +53,9 @@ class _MovieCardState extends State<MovieCard> {
                         shape: const CircleBorder(),
                       ),
                       onPressed: () {
-                        setState(() {
-                          isFavPressed = !isFavPressed;
-                        });
-                        widget.onFavPressed();
+                        onFavPressed();
                       },
-                      child: isFavPressed
-                          ? const Icon(Icons.favorite)
-                          : const Icon(Icons.favorite_outline),
+                      child: const Icon(Icons.favorite),
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -78,14 +64,9 @@ class _MovieCardState extends State<MovieCard> {
                         shape: const CircleBorder(),
                       ),
                       onPressed: () {
-                        setState(() {
-                          isWatchlistPressed = !isWatchlistPressed;
-                        });
-                        widget.onWatchlistPressed();
+                        onWatchlistPressed();
                       },
-                      child: isWatchlistPressed
-                          ? const Icon(Icons.remove_red_eye)
-                          : const Icon(Icons.remove_red_eye_outlined),
+                      child: const Icon(Icons.remove_red_eye),
                     ),
                   ],
                 ),
@@ -98,7 +79,7 @@ class _MovieCardState extends State<MovieCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.title,
+                            title,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 20.0,
@@ -109,7 +90,7 @@ class _MovieCardState extends State<MovieCard> {
                             height: 2.0,
                           ),
                           Text(
-                            widget.releaseDate.substring(0, 4),
+                            releaseDate.substring(0, 4),
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 12.0,
@@ -124,7 +105,7 @@ class _MovieCardState extends State<MovieCard> {
                         CircleAvatar(
                           backgroundColor: Colors.green,
                           child: Text(
-                            widget.rating,
+                            rating,
                             style: const TextStyle(color: Colors.white),
                           ),
                         )
@@ -137,7 +118,7 @@ class _MovieCardState extends State<MovieCard> {
                         shape: const CircleBorder(),
                       ),
                       onPressed: () {
-                        widget.onPlayPressed();
+                        onPlayPressed();
                       },
                       child: const Icon(Icons.play_arrow),
                     ),
