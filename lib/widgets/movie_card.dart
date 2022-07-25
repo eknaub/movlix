@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movlix/provider/user_movies.dart';
 import 'package:movlix/utils/constants.dart';
-import 'package:provider/provider.dart';
 
 class MovieCard extends StatefulWidget {
   const MovieCard(
@@ -37,9 +35,6 @@ class _MovieCardState extends State<MovieCard> {
 
   @override
   Widget build(BuildContext context) {
-    List favMovies = context.watch<UserMoviesProvider>().favList;
-    List watchlistMovies = context.watch<UserMoviesProvider>().watchlistList;
-
     //TODO: Fav/Watchlist Icons
 
     return Card(

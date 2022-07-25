@@ -1,44 +1,72 @@
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-//TODO: Add movieId to users database
+enum UserMoviesEnum { favorites, watchlist, recent }
 
-class UserMoviesProvider with ChangeNotifier {
-  final List<int> _favList = [];
-  List get favList => _favList;
-
-  void addToFavList({required int movieId}) {
-    _favList.add(movieId);
-    notifyListeners();
+class UserMovies {
+  static Future<void> addToFavList(
+      {required int movieId, required String? userEmail}) async {
+    List<dynamic> favoritesDyn = await getFieldDataFromDatabase(
+        userEmail: userEmail, fieldName: UserMoviesEnum.favorites);
+    List<int> favorites = favoritesDyn.cast<int>();
+    //If movieid already exists, remove it, else add it
+    if (favorites.contains(movieId)) {
+      favorites.remove(movieId);
+    } else {
+      favorites.add(movieId);
+      favorites = favorites.toSet().toList(); //remove dupes
+    }
+    if (userEmail != null) {
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(userEmail)
+          .update({'favorites': favorites});
+    }
   }
 
-  void removeFromFavList({required int movieId}) {
-    _favList.remove(movieId);
-    notifyListeners();
+  static Future<void> addToWatchlistList(
+      {required int movieId, required String? userEmail}) async {
+    List<dynamic> favoritesDyn = await getFieldDataFromDatabase(
+        userEmail: userEmail, fieldName: UserMoviesEnum.watchlist);
+    List<int> watchlist = favoritesDyn.cast<int>();
+    if (watchlist.contains(movieId)) {
+      watchlist.remove(movieId);
+    } else {
+      watchlist.add(movieId);
+      watchlist = watchlist.toSet().toList();
+    }
+    if (userEmail != null) {
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(userEmail)
+          .update({'watchlist': watchlist});
+    }
   }
 
-  final List<int> _watchlistList = [];
-  List get watchlistList => _watchlistList;
-
-  void addToWatchlistList({required int movieId}) {
-    _watchlistList.add(movieId);
-    notifyListeners();
+  static Future<void> addToRecentList(
+      {required int movieId, required String? userEmail}) async {
+    List<dynamic> favoritesDyn = await getFieldDataFromDatabase(
+        userEmail: userEmail, fieldName: UserMoviesEnum.recent);
+    List<int> recent = favoritesDyn.cast<int>();
+    if (recent.contains(movieId)) {
+      recent.remove(movieId);
+    } else {
+      recent.add(movieId);
+      recent = recent.toSet().toList();
+    }
+    if (userEmail != null) {
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(userEmail)
+          .update({'recent': recent});
+    }
   }
 
-  void removeFromWatchlistList({required int movieId}) {
-    _watchlistList.remove(movieId);
-    notifyListeners();
-  }
-
-  final List<int> _recentList = [];
-  List get recentList => _recentList;
-
-  void addToRecentList({required int movieId}) {
-    _recentList.add(movieId);
-    notifyListeners();
-  }
-
-  void removeFromRecentList({required int movieId}) {
-    _recentList.remove(movieId);
-    notifyListeners();
+  static Future<List<dynamic>> getFieldDataFromDatabase(
+      {required String? userEmail, required UserMoviesEnum fieldName}) async {
+    if (userEmail == null) return [];
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    final snapshot = await users.doc(userEmail).get();
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+    return data.containsKey(fieldName.name) ? data[fieldName.name] : [];
   }
 }

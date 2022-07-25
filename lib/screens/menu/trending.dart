@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:movlix/models/movie.dart';
+import 'package:movlix/models/my_app_user.dart';
 import 'package:movlix/provider/user_movies.dart';
+import 'package:movlix/services/firebase_auth_service.dart';
 import 'package:movlix/services/movie_service.dart';
 import 'package:movlix/utils/constants.dart';
 import 'package:movlix/widgets/movie_card.dart';
 import 'package:movlix/widgets/movie_sliver_grid.dart';
-import 'package:provider/provider.dart';
 
 class Trending extends StatefulWidget {
   const Trending({Key? key}) : super(key: key);
@@ -15,7 +16,21 @@ class Trending extends StatefulWidget {
 }
 
 class _TrendingState extends State<Trending> {
+  final FirebaseAuthService _auth = FirebaseAuthService();
+  MyAppUser? loggedInUser;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() async {
+    loggedInUser = await _auth.currentUser();
+  }
+
   List<bool> isSelected = [true, false];
+
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -96,19 +111,19 @@ class _TrendingState extends State<Trending> {
                           rating: movie.rating.toStringAsFixed(1),
                           releaseDate: movie.releaseDate,
                           onFavPressed: () {
-                            context
-                                .read<UserMoviesProvider>()
-                                .addToFavList(movieId: movie.id);
+                            UserMovies.addToFavList(
+                                movieId: movie.id,
+                                userEmail: loggedInUser?.email);
                           },
                           onPlayPressed: () {
-                            context
-                                .read<UserMoviesProvider>()
-                                .addToRecentList(movieId: movie.id);
+                            UserMovies.addToRecentList(
+                                movieId: movie.id,
+                                userEmail: loggedInUser?.email);
                           },
                           onWatchlistPressed: () {
-                            context
-                                .read<UserMoviesProvider>()
-                                .addToWatchlistList(movieId: movie.id);
+                            UserMovies.addToWatchlistList(
+                                movieId: movie.id,
+                                userEmail: loggedInUser?.email);
                           },
                         ),
                       );

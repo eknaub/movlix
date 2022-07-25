@@ -1,11 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:movlix/provider/user_movies.dart';
 import 'package:movlix/screens/login/login_screen.dart';
 import 'package:movlix/screens/main/movie_main_screen.dart';
 import 'package:movlix/utils/constants.dart';
-import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 
@@ -15,12 +13,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(
-    ChangeNotifierProvider<UserMoviesProvider>(
-      child: const MyApp(),
-      create: (_) => UserMoviesProvider(),
-    ),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

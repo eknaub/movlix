@@ -1,14 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:movlix/models/movie.dart';
+import 'package:movlix/models/my_app_user.dart';
 import 'package:movlix/provider/user_movies.dart';
+import 'package:movlix/services/firebase_auth_service.dart';
 import 'package:movlix/services/movie_service.dart';
 import 'package:movlix/widgets/default_movie_view.dart';
 import 'package:movlix/widgets/movie_card.dart';
 import 'package:movlix/widgets/movie_sliver_grid.dart';
-import 'package:provider/provider.dart';
 
-class TopRated extends StatelessWidget {
+class TopRated extends StatefulWidget {
   const TopRated({Key? key}) : super(key: key);
+
+  @override
+  State<TopRated> createState() => _TopRatedState();
+}
+
+class _TopRatedState extends State<TopRated> {
+  final FirebaseAuthService _auth = FirebaseAuthService();
+  MyAppUser? loggedInUser;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() async {
+    loggedInUser = await _auth.currentUser();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,19 +50,16 @@ class TopRated extends StatelessWidget {
                 rating: movie.rating.toStringAsFixed(1),
                 releaseDate: movie.releaseDate,
                 onFavPressed: () {
-                  context
-                      .read<UserMoviesProvider>()
-                      .addToFavList(movieId: movie.id);
+                  UserMovies.addToFavList(
+                      movieId: movie.id, userEmail: loggedInUser?.email);
                 },
                 onPlayPressed: () {
-                  context
-                      .read<UserMoviesProvider>()
-                      .addToRecentList(movieId: movie.id);
+                  UserMovies.addToRecentList(
+                      movieId: movie.id, userEmail: loggedInUser?.email);
                 },
                 onWatchlistPressed: () {
-                  context
-                      .read<UserMoviesProvider>()
-                      .addToWatchlistList(movieId: movie.id);
+                  UserMovies.addToWatchlistList(
+                      movieId: movie.id, userEmail: loggedInUser?.email);
                 },
               ),
             );
