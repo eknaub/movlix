@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movlix/utils/constants.dart';
 
-class CustomDrawerHeader extends StatelessWidget {
-  const CustomDrawerHeader({
+class CustomDrawerHeaderLogo extends StatelessWidget {
+  const CustomDrawerHeaderLogo({
     Key? key,
   }) : super(key: key);
 

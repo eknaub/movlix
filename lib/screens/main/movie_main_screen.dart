@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movlix/models/drawer_item.dart';
-import 'package:movlix/models/drawer_items.dart';
-import 'package:movlix/screens/main/components/custom_drawer_header.dart';
+import 'package:movlix/models/main_drawer_items.dart';
+import 'package:movlix/screens/main/components/custom_drawer_header_logo.dart';
 import 'package:movlix/screens/main/components/custom_drawer_item.dart';
 import 'package:movlix/screens/main/components/custom_drawer_title.dart';
 import 'package:movlix/services/firebase_auth_service.dart';
@@ -17,12 +17,12 @@ class MovieScreen extends StatefulWidget {
 class _MovieScreenState extends State<MovieScreen> {
   final FirebaseAuthService _auth = FirebaseAuthService();
 
-  int selectedMenuIndex = 0;
+  int selectedMenuIndex = -1;
   int selectedLibraryIndex = -1;
-  int selectedGeneralIndex = -1;
-  List<DrawerItem> menuItems = DrawerItems.getMenuItems();
-  List<DrawerItem> libraryItems = DrawerItems.getLibraryItems();
-  List<DrawerItem> generalItems = DrawerItems.getGeneralItems();
+  int selectedGeneralIndex = 0;
+  List<DrawerItem> menuItems = MainDrawerItems.getMenuItems();
+  List<DrawerItem> libraryItems = MainDrawerItems.getLibraryItems();
+  List<DrawerItem> generalItems = MainDrawerItems.getGeneralItems();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class _MovieScreenState extends State<MovieScreen> {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                const CustomDrawerHeader(),
+                const CustomDrawerHeaderLogo(),
                 const CustomDrawerTitle(
                   title: 'MENU',
                 ),

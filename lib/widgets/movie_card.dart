@@ -23,11 +23,11 @@ class MovieCard extends StatelessWidget {
   final Function onWatchlistPressed;
   final Function onPlayPressed;
 
-  final String baseUrl = "https://image.tmdb.org/t/p/original";
+  final String imageBaseUrl = "https://image.tmdb.org/t/p/original";
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Fav/Watchlist Icons
+    //TODO: Fav/Watchlist Icons fill/nofill
 
     return Card(
       color: kScaffoldColor,
@@ -36,7 +36,7 @@ class MovieCard extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                  image: NetworkImage(baseUrl + image), fit: BoxFit.fill),
+                  image: NetworkImage(imageBaseUrl + image), fit: BoxFit.fill),
             ),
           ),
           Padding(

@@ -124,35 +124,33 @@ class _LoginTabState extends State<LoginTab> {
                     title: 'Login',
                     color: Colors.purple.shade800,
                     onPressed: () async {
-                      if (kDebugMode) {
-                        if (formKey.currentState != null &&
-                            formKey.currentState!.validate()) {
-                          try {
-                            final user = await _auth.signInWithEmailAndPassword(
-                                email: emailController.text,
-                                password: passwordController.text);
-                            if (user != null) {
-                              if (!mounted) return;
-                              emailController.text = '';
-                              passwordController.text = '';
-                              Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                  pageBuilder:
-                                      (context, animation1, animation2) =>
-                                          const MovieScreen(),
-                                  transitionDuration: Duration.zero,
-                                  reverseTransitionDuration: Duration.zero,
-                                ),
-                              );
-                            }
-                          } on FirebaseAuthException catch (e) {
-                            setState(
-                              () {
-                                errorMsg = e.message;
-                              },
+                      if (formKey.currentState != null &&
+                          formKey.currentState!.validate()) {
+                        try {
+                          final user = await _auth.signInWithEmailAndPassword(
+                              email: emailController.text,
+                              password: passwordController.text);
+                          if (user != null) {
+                            if (!mounted) return;
+                            emailController.text = '';
+                            passwordController.text = '';
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation1, animation2) =>
+                                        const MovieScreen(),
+                                transitionDuration: Duration.zero,
+                                reverseTransitionDuration: Duration.zero,
+                              ),
                             );
                           }
+                        } on FirebaseAuthException catch (e) {
+                          setState(
+                            () {
+                              errorMsg = e.message;
+                            },
+                          );
                         }
                       }
                     },

@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:movlix/services/firebase_auth_service.dart';
 import 'package:movlix/utils/constants.dart';
+import 'package:movlix/widgets/custom_dialogs.dart';
 import 'package:movlix/widgets/email_form_field.dart';
 import 'package:movlix/widgets/rounded_elevated_button.dart';
 
@@ -109,7 +110,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 title: 'Reset',
                 color: Colors.purple.shade800,
                 onPressed: () async {
-                  if (kDebugMode) {
+                  if (kDebugMode || kProfileMode) {
                     if (formKey.currentState != null &&
                         formKey.currentState!.validate()) {
                       try {
@@ -123,6 +124,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         );
                       }
                     }
+                  } else {
+                    CustomDialogs.releaseModeDialog(
+                      context: context,
+                      func: () {
+                        setState(
+                          () {
+                            Navigator.pop(context);
+                          },
+                        );
+                      },
+                    );
                   }
                 },
               ),
