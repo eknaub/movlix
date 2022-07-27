@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:movlix/auth_screen.dart';
+import 'package:movlix/models/movie_main_selected_index.dart';
 import 'package:movlix/models/my_app_user.dart';
 import 'package:movlix/services/firebase_auth_service.dart';
 import 'package:movlix/utils/constants.dart';
@@ -23,19 +24,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      scrollBehavior: MyCustomScrollBehavior(),
-      title: 'Movlix',
-      theme: ThemeData().copyWith(
-        drawerTheme: const DrawerThemeData(
-          backgroundColor: kDrawerColor,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(
+          value: MovieMainSelectedIndexProvider(),
         ),
-        scaffoldBackgroundColor: kScaffoldColor,
-      ),
-      home: StreamProvider<MyAppUser?>.value(
-        value: FirebaseAuthService().user,
-        initialData: null,
-        child: const AuthUser(),
+        StreamProvider<MyAppUser?>.value(
+          value: FirebaseAuthService().user,
+          initialData: null,
+        ),
+      ],
+      child: MaterialApp(
+        scrollBehavior: MyCustomScrollBehavior(),
+        title: 'Movlix',
+        theme: ThemeData().copyWith(
+          drawerTheme: const DrawerThemeData(
+            backgroundColor: kDrawerColor,
+          ),
+          scaffoldBackgroundColor: kScaffoldColor,
+        ),
+        home: const AuthUser(),
       ),
     );
   }

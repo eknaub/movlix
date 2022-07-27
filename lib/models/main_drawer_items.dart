@@ -10,6 +10,12 @@ import 'package:movlix/screens/menu/home.dart';
 import 'package:movlix/screens/menu/trending.dart';
 import 'package:movlix/screens/menu/upcoming.dart';
 
+enum MenuItems { home, discovery, trending, upcoming }
+
+enum LibraryItems { recent, favorites, watchlist, topRated }
+
+enum GeneralItems { settings }
+
 class MainDrawerItems {
   static List<DrawerItem> getMenuItems() {
     return const [

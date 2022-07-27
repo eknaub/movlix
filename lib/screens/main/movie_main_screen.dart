@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:movlix/models/drawer_item.dart';
 import 'package:movlix/models/main_drawer_items.dart';
+import 'package:movlix/models/movie_main_selected_index.dart';
 import 'package:movlix/screens/main/components/custom_drawer_header_logo.dart';
 import 'package:movlix/screens/main/components/custom_drawer_item.dart';
 import 'package:movlix/screens/main/components/custom_drawer_title.dart';
 import 'package:movlix/services/firebase_auth_service.dart';
 import 'package:movlix/utils/constants.dart';
+import 'package:provider/provider.dart';
 
 class MovieScreen extends StatefulWidget {
   const MovieScreen({Key? key}) : super(key: key);
@@ -17,15 +19,18 @@ class MovieScreen extends StatefulWidget {
 class _MovieScreenState extends State<MovieScreen> {
   final FirebaseAuthService _auth = FirebaseAuthService();
 
-  int selectedMenuIndex = 0;
-  int selectedLibraryIndex = -1;
-  int selectedGeneralIndex = -1;
   List<DrawerItem> menuItems = MainDrawerItems.getMenuItems();
   List<DrawerItem> libraryItems = MainDrawerItems.getLibraryItems();
   List<DrawerItem> generalItems = MainDrawerItems.getGeneralItems();
 
   @override
   Widget build(BuildContext context) {
+    int selectedMenuIndex =
+        Provider.of<MovieMainSelectedIndexProvider>(context).selectedMenuIndex;
+    int selectedLibraryIndex =
+        context.watch<MovieMainSelectedIndexProvider>().selectedLibraryIndex;
+    int selectedGeneralIndex =
+        context.watch<MovieMainSelectedIndexProvider>().selectedGeneralIndex;
     return Scaffold(
       body: Row(
         children: [
@@ -50,9 +55,9 @@ class _MovieScreenState extends State<MovieScreen> {
                       onTap: () {
                         setState(
                           () => {
-                            selectedMenuIndex = index,
-                            selectedLibraryIndex = -1,
-                            selectedGeneralIndex = -1,
+                            context
+                                .read<MovieMainSelectedIndexProvider>()
+                                .updateMenuIndex(index),
                           },
                         );
                       },
@@ -79,9 +84,9 @@ class _MovieScreenState extends State<MovieScreen> {
                       onTap: () {
                         setState(
                           () => {
-                            selectedMenuIndex = -1,
-                            selectedLibraryIndex = index,
-                            selectedGeneralIndex = -1,
+                            context
+                                .read<MovieMainSelectedIndexProvider>()
+                                .updateLibraryIndex(index),
                           },
                         );
                       },
@@ -108,9 +113,9 @@ class _MovieScreenState extends State<MovieScreen> {
                       onTap: () {
                         setState(
                           () => {
-                            selectedMenuIndex = -1,
-                            selectedLibraryIndex = -1,
-                            selectedGeneralIndex = index,
+                            context
+                                .read<MovieMainSelectedIndexProvider>()
+                                .updateGeneralIndex(index),
                           },
                         );
                       },
@@ -147,14 +152,20 @@ class _MovieScreenState extends State<MovieScreen> {
             ),
           ),
           Expanded(
-            child: showSelectedWidget(),
+            child: showSelectedWidget(
+                selectedMenuIndex: selectedMenuIndex,
+                selectedGeneralIndex: selectedGeneralIndex,
+                selectedLibraryIndex: selectedLibraryIndex),
           ),
         ],
       ),
     );
   }
 
-  Widget showSelectedWidget() {
+  Widget showSelectedWidget(
+      {required int selectedMenuIndex,
+      required int selectedLibraryIndex,
+      required int selectedGeneralIndex}) {
     if (selectedMenuIndex != -1) {
       return menuItems[selectedMenuIndex].child;
     } else if (selectedLibraryIndex != -1) {

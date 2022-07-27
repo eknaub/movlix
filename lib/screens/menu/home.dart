@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:movlix/models/main_drawer_items.dart';
 import 'package:movlix/models/movie.dart';
+import 'package:movlix/models/movie_main_selected_index.dart';
 import 'package:movlix/models/my_app_user.dart';
 import 'package:movlix/models/user_movies.dart';
 import 'package:movlix/services/movie_service.dart';
@@ -19,7 +21,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final MyAppUser? user = Provider.of<MyAppUser?>(context);
-    //TODO: yo
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Column(
@@ -27,7 +28,9 @@ class _HomeState extends State<Home> {
           HomeHeader(
             title: 'Trending movies',
             seeAllPressed: () {
-              print('Go to Trending :)');
+              context
+                  .read<MovieMainSelectedIndexProvider>()
+                  .updateMenuIndex(MenuItems.trending.index);
             },
           ),
           FutureBuilder<List<Movie>>(
@@ -140,13 +143,15 @@ class _HomeState extends State<Home> {
                 );
               }
 
-              return HorizontalListMovies(data: cards);
+              return MoviesHorizontalList(data: cards);
             },
           ),
           HomeHeader(
             title: 'Continue watching',
             seeAllPressed: () {
-              print('Go to Recent :)');
+              context
+                  .read<MovieMainSelectedIndexProvider>()
+                  .updateLibraryIndex(LibraryItems.recent.index);
             },
           ),
           FutureBuilder<List<Movie>>(
@@ -237,14 +242,16 @@ class _HomeState extends State<Home> {
                     ),
                   );
                 }
-                return HorizontalListMovies(data: cards);
+                return MoviesHorizontalList(data: cards);
               }
             },
           ),
           HomeHeader(
             title: 'Top rated movies',
             seeAllPressed: () {
-              print('Go to Top Rated :)');
+              context
+                  .read<MovieMainSelectedIndexProvider>()
+                  .updateLibraryIndex(LibraryItems.topRated.index);
             },
           ),
           FutureBuilder<List<Movie>>(
@@ -356,7 +363,7 @@ class _HomeState extends State<Home> {
                   ),
                 );
               }
-              return HorizontalListMovies(data: cards);
+              return MoviesHorizontalList(data: cards);
             },
           )
         ],
@@ -365,8 +372,8 @@ class _HomeState extends State<Home> {
   }
 }
 
-class HorizontalListMovies extends StatelessWidget {
-  const HorizontalListMovies({Key? key, required this.data}) : super(key: key);
+class MoviesHorizontalList extends StatelessWidget {
+  const MoviesHorizontalList({Key? key, required this.data}) : super(key: key);
 
   final List<Widget> data;
 
