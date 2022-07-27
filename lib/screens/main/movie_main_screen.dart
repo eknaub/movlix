@@ -17,9 +17,9 @@ class MovieScreen extends StatefulWidget {
 class _MovieScreenState extends State<MovieScreen> {
   final FirebaseAuthService _auth = FirebaseAuthService();
 
-  int selectedMenuIndex = -1;
+  int selectedMenuIndex = 0;
   int selectedLibraryIndex = -1;
-  int selectedGeneralIndex = 0;
+  int selectedGeneralIndex = -1;
   List<DrawerItem> menuItems = MainDrawerItems.getMenuItems();
   List<DrawerItem> libraryItems = MainDrawerItems.getLibraryItems();
   List<DrawerItem> generalItems = MainDrawerItems.getGeneralItems();
@@ -147,14 +147,14 @@ class _MovieScreenState extends State<MovieScreen> {
             ),
           ),
           Expanded(
-            child: getSelectedWidget(),
+            child: showSelectedWidget(),
           ),
         ],
       ),
     );
   }
 
-  Widget getSelectedWidget() {
+  Widget showSelectedWidget() {
     if (selectedMenuIndex != -1) {
       return menuItems[selectedMenuIndex].child;
     } else if (selectedLibraryIndex != -1) {

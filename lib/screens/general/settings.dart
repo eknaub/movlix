@@ -14,13 +14,12 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  int selectedIndex = 0;
+  List<DrawerItem> settingsItems = SettingsDrawerItems.getSettingsItems();
+
   @override
   Widget build(BuildContext context) {
     final MyAppUser? user = Provider.of<MyAppUser?>(context);
-
-    int selectedIndex = 0;
-    List<DrawerItem> settingsItems = SettingsDrawerItems.getSettingsItems();
-
     //TODO: yo
     return Row(
       children: [
@@ -39,7 +38,7 @@ class _SettingsState extends State<Settings> {
                     CircleAvatar(
                       backgroundColor: kGreyColor,
                       child: Text(
-                        user != null ? user.email![0] : 'A',
+                        user?.email != null ? user!.email![0] : 'A',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18.0,
@@ -78,8 +77,8 @@ class _SettingsState extends State<Settings> {
             ],
           ),
         ),
-        const Expanded(
-          child: Placeholder(),
+        Expanded(
+          child: settingsItems[selectedIndex].child,
         ),
       ],
     );

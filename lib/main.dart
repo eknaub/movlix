@@ -4,6 +4,7 @@ import 'package:movlix/auth_screen.dart';
 import 'package:movlix/models/my_app_user.dart';
 import 'package:movlix/services/firebase_auth_service.dart';
 import 'package:movlix/utils/constants.dart';
+import 'package:movlix/utils/scroll.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scrollBehavior: MyCustomScrollBehavior(),
       title: 'Movlix',
       theme: ThemeData().copyWith(
         drawerTheme: const DrawerThemeData(

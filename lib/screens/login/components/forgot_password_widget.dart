@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:movlix/services/firebase_auth_service.dart';
 import 'package:movlix/utils/constants.dart';
-import 'package:movlix/widgets/custom_dialogs.dart';
 import 'package:movlix/widgets/email_form_field.dart';
 import 'package:movlix/widgets/rounded_elevated_button.dart';
 
@@ -110,31 +108,18 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 title: 'Reset',
                 color: Colors.purple.shade800,
                 onPressed: () async {
-                  if (kDebugMode || kProfileMode) {
-                    if (formKey.currentState != null &&
-                        formKey.currentState!.validate()) {
-                      try {
-                        await _auth.sendPasswordResetEmail(
-                            email: emailController.text);
-                      } on FirebaseAuthException catch (e) {
-                        setState(
-                          () {
-                            errorMsg = e.message;
-                          },
-                        );
-                      }
+                  if (formKey.currentState != null &&
+                      formKey.currentState!.validate()) {
+                    try {
+                      await _auth.sendPasswordResetEmail(
+                          email: emailController.text);
+                    } on FirebaseAuthException catch (e) {
+                      setState(
+                        () {
+                          errorMsg = e.message;
+                        },
+                      );
                     }
-                  } else {
-                    CustomDialogs.releaseModeDialog(
-                      context: context,
-                      func: () {
-                        setState(
-                          () {
-                            Navigator.pop(context);
-                          },
-                        );
-                      },
-                    );
                   }
                 },
               ),
