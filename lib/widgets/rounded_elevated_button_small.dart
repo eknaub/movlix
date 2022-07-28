@@ -22,7 +22,6 @@ class RoundedElevatedButtonSmall extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        fixedSize: const Size.fromWidth(125),
       ),
       onPressed: () => onPressed(),
       child: Text(title),
