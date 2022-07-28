@@ -14,7 +14,7 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  int selectedIndex = 3;
+  int selectedIndex = 0;
   List<DrawerItem> settingsItems = SettingsDrawerItems.getSettingsItems();
 
   @override

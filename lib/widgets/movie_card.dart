@@ -27,8 +27,6 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Fav/Watchlist Icons fill/nofill
-
     return Card(
       color: kScaffoldColor,
       child: Stack(
