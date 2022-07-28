@@ -25,10 +25,10 @@ You can try the demo here https://movlix-fcd17.web.app/#/
 
 ## Screenshots
 
-<img src="https://github.com/raqo0/movlix/blob/main/images/login.png" width="75%" height="75%"> 
-<img src="https://github.com/raqo0/movlix/blob/main/images/main.png" width="75%" height="75%"> 
-<img src="https://github.com/raqo0/movlix/blob/main/images/favorites.png" width="75%" height="75%"> 
-<img src="https://github.com/raqo0/movlix/blob/main/images/settings.png" width="75%" height="75%"> 
+<img src="https://github.com/raqo0/movlix/blob/main/images/login.png"> 
+<img src="https://github.com/raqo0/movlix/blob/main/images/main.png"> 
+<img src="https://github.com/raqo0/movlix/blob/main/images/favorites.png"> 
+<img src="https://github.com/raqo0/movlix/blob/main/images/settings.png"> 
 
 [flutter-shield]: https://img.shields.io/badge/Flutter-Framework-blue?logo=flutter
 [flutter-url]: https://flutter.io/
