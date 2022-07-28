@@ -81,9 +81,9 @@ class MovieService {
   }
 
   static Future<List<Movie>> fetchMoviesUserFavorite(
-      {required String? userEmail}) async {
+      {required String? userId}) async {
     List<dynamic> favorites = await UserMovies.getFieldDataFromDatabase(
-        userEmail: userEmail, fieldName: UserMoviesEnum.favorites);
+        userId: userId, fieldName: UserMoviesEnum.favorites);
     List<Movie> movies = [];
     for (var fav in favorites) {
       String url = '$baseUrl/movie/$fav?api_key=$apiKey&language=en-US';
@@ -100,9 +100,9 @@ class MovieService {
   }
 
   static Future<List<Movie>> fetchMoviesUserWatchlist(
-      {required String? userEmail}) async {
+      {required String? userId}) async {
     List<dynamic> watchlist = await UserMovies.getFieldDataFromDatabase(
-        userEmail: userEmail, fieldName: UserMoviesEnum.watchlist);
+        userId: userId, fieldName: UserMoviesEnum.watchlist);
     List<Movie> movies = [];
     for (var fav in watchlist) {
       String url = '$baseUrl/movie/$fav?api_key=$apiKey&language=en-US';
@@ -119,9 +119,9 @@ class MovieService {
   }
 
   static Future<List<Movie>> fetchMoviesUserRecent(
-      {required String? userEmail}) async {
+      {required String? userId}) async {
     List<dynamic> recent = await UserMovies.getFieldDataFromDatabase(
-        userEmail: userEmail, fieldName: UserMoviesEnum.recent);
+        userId: userId, fieldName: UserMoviesEnum.recent);
     List<Movie> movies = [];
     for (var fav in recent) {
       String url = '$baseUrl/movie/$fav?api_key=$apiKey&language=en-US';

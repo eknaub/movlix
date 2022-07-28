@@ -25,7 +25,7 @@ class _WatchlistState extends State<Watchlist> {
     return DefaultMovieView(
       title: 'Watchlist',
       futureData: FutureBuilder<List<Movie>>(
-        future: MovieService.fetchMoviesUserWatchlist(userEmail: user?.email),
+        future: MovieService.fetchMoviesUserWatchlist(userId: user?.uid),
         builder: (context, snapshot) {
           if (!snapshot.hasData ||
               snapshot.connectionState == ConnectionState.waiting) {
@@ -60,7 +60,7 @@ class _WatchlistState extends State<Watchlist> {
                   releaseDate: movie.releaseDate,
                   onFavPressed: () async {
                     var val = await UserMovies.onFavoriteMoviePressed(
-                        movieId: movie.id, userEmail: user?.email);
+                        movieId: movie.id, userId: user?.uid);
                     if (!mounted) return;
                     CustomDialogs.favoriteSuccessDialog(
                       context: context,
@@ -77,7 +77,7 @@ class _WatchlistState extends State<Watchlist> {
                   },
                   onPlayPressed: () async {
                     var val = await UserMovies.onRecentMoviePressed(
-                        movieId: movie.id, userEmail: user?.email);
+                        movieId: movie.id, userId: user?.uid);
                     if (!mounted) return;
                     CustomDialogs.recentSuccessDialog(
                       context: context,
@@ -94,7 +94,7 @@ class _WatchlistState extends State<Watchlist> {
                   },
                   onWatchlistPressed: () async {
                     var val = await UserMovies.onWatchlistMoviePressed(
-                        movieId: movie.id, userEmail: user?.email);
+                        movieId: movie.id, userId: user?.uid);
                     if (!mounted) return;
                     CustomDialogs.watchlistSuccessDialog(
                       context: context,

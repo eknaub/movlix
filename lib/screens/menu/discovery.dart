@@ -40,94 +40,55 @@ class _DiscoveryState extends State<Discovery> {
                 rating: movie.rating.toStringAsFixed(1),
                 releaseDate: movie.releaseDate,
                 onFavPressed: () async {
-                  if (user?.email == null) {
-                    CustomDialogs.anonModeDialog(
-                      context: context,
-                      func: () {
-                        setState(
-                          () {
-                            Navigator.pop(context);
-                          },
-                        );
-                      },
-                    );
-                  } else {
-                    var val = await UserMovies.onFavoriteMoviePressed(
-                        movieId: movie.id, userEmail: user?.email);
-                    if (!mounted) return;
-                    CustomDialogs.favoriteSuccessDialog(
-                      context: context,
-                      val: val,
-                      movie: movie,
-                      func: () {
-                        setState(
-                          () {
-                            Navigator.pop(context);
-                          },
-                        );
-                      },
-                    );
-                  }
+                  var val = await UserMovies.onFavoriteMoviePressed(
+                      movieId: movie.id, userId: user?.uid);
+                  if (!mounted) return;
+                  CustomDialogs.favoriteSuccessDialog(
+                    context: context,
+                    val: val,
+                    movie: movie,
+                    func: () {
+                      setState(
+                        () {
+                          Navigator.pop(context);
+                        },
+                      );
+                    },
+                  );
                 },
                 onPlayPressed: () async {
-                  if (user?.email == null) {
-                    CustomDialogs.anonModeDialog(
-                      context: context,
-                      func: () {
-                        setState(
-                          () {
-                            Navigator.pop(context);
-                          },
-                        );
-                      },
-                    );
-                  } else {
-                    var val = await UserMovies.onRecentMoviePressed(
-                        movieId: movie.id, userEmail: user?.email);
-                    if (!mounted) return;
-                    CustomDialogs.recentSuccessDialog(
-                      context: context,
-                      val: val,
-                      movie: movie,
-                      func: () {
-                        setState(
-                          () {
-                            Navigator.pop(context);
-                          },
-                        );
-                      },
-                    );
-                  }
+                  var val = await UserMovies.onRecentMoviePressed(
+                      movieId: movie.id, userId: user?.uid);
+                  if (!mounted) return;
+                  CustomDialogs.recentSuccessDialog(
+                    context: context,
+                    val: val,
+                    movie: movie,
+                    func: () {
+                      setState(
+                        () {
+                          Navigator.pop(context);
+                        },
+                      );
+                    },
+                  );
                 },
                 onWatchlistPressed: () async {
-                  if (user?.email == null) {
-                    CustomDialogs.anonModeDialog(
-                      context: context,
-                      func: () {
-                        setState(
-                          () {
-                            Navigator.pop(context);
-                          },
-                        );
-                      },
-                    );
-                  } else {
-                    var val = await UserMovies.onWatchlistMoviePressed(
-                        movieId: movie.id, userEmail: user?.email);
-                    if (!mounted) return;
-                    CustomDialogs.watchlistSuccessDialog(
-                      context: context,
-                      val: val,
-                      movie: movie,
-                      func: () {
-                        setState(
-                          () {
-                            Navigator.pop(context);
-                          },
-                        );
-                      },
-                    );
-                  }
+                  var val = await UserMovies.onWatchlistMoviePressed(
+                      movieId: movie.id, userId: user?.uid);
+                  if (!mounted) return;
+                  CustomDialogs.watchlistSuccessDialog(
+                    context: context,
+                    val: val,
+                    movie: movie,
+                    func: () {
+                      setState(
+                        () {
+                          Navigator.pop(context);
+                        },
+                      );
+                    },
+                  );
                 },
               ),
             );

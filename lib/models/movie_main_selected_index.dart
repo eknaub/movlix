@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class MovieMainSelectedIndexProvider with ChangeNotifier {
-  int _selectedMenuIndex = -1;
+  int _selectedMenuIndex = 0;
   int _selectedLibraryIndex = -1;
-  int _selectedGeneralIndex = 0;
+  int _selectedGeneralIndex = -1;
 
   int get selectedMenuIndex => _selectedMenuIndex;
   int get selectedLibraryIndex => _selectedLibraryIndex;
