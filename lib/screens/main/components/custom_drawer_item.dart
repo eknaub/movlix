@@ -26,7 +26,7 @@ class CustomDrawerItem extends StatelessWidget {
         padding: const EdgeInsets.all(12.0),
         child: Icon(
           isSelected ? selectedIconData : iconData,
-          color: isSelected ? Colors.white : kGreyColor,
+          color: isSelected ? Colors.red : kGreyColor,
         ),
       ),
       trailing: isSelected

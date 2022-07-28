@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class RoundedElevatedButton extends StatelessWidget {
-  const RoundedElevatedButton({
+class RoundedElevatedButtonSmall extends StatelessWidget {
+  const RoundedElevatedButtonSmall({
     Key? key,
     required this.onPressed,
     required this.title,
@@ -17,12 +17,12 @@ class RoundedElevatedButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         primary: color,
-        padding: const EdgeInsets.all(24.0),
-        textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        padding: const EdgeInsets.all(12.0),
+        textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(12),
         ),
-        fixedSize: const Size.fromWidth(150),
+        fixedSize: const Size.fromWidth(100),
       ),
       onPressed: () => onPressed(),
       child: Text(title),

@@ -5,7 +5,7 @@ import 'package:movlix/services/firebase_auth_service.dart';
 import 'package:movlix/utils/constants.dart';
 import 'package:movlix/widgets/email_form_field.dart';
 import 'package:movlix/widgets/password_form_field.dart';
-import 'package:movlix/widgets/rounded_elevated_button.dart';
+import 'package:movlix/widgets/rounded_elevated_button_big.dart';
 
 class LoginTab extends StatefulWidget {
   final Function onForgotPasswordPressed;
@@ -119,7 +119,7 @@ class _LoginTabState extends State<LoginTab> {
             Column(
               children: [
                 Center(
-                  child: RoundedElevatedButton(
+                  child: RoundedElevatedButtonBig(
                     title: 'Login',
                     color: Colors.purple.shade800,
                     onPressed: () async {

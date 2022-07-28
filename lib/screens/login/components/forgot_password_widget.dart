@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:movlix/services/firebase_auth_service.dart';
 import 'package:movlix/utils/constants.dart';
 import 'package:movlix/widgets/email_form_field.dart';
-import 'package:movlix/widgets/rounded_elevated_button.dart';
+import 'package:movlix/widgets/rounded_elevated_button_big.dart';
 
 class ForgotPassword extends StatefulWidget {
   final Function onBackPressed;
@@ -104,7 +104,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   )
                 : Container(),
             Center(
-              child: RoundedElevatedButton(
+              child: RoundedElevatedButtonBig(
                 title: 'Reset',
                 color: Colors.purple.shade800,
                 onPressed: () async {

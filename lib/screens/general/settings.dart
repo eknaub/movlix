@@ -14,13 +14,12 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  int selectedIndex = 0;
+  int selectedIndex = 3;
   List<DrawerItem> settingsItems = SettingsDrawerItems.getSettingsItems();
 
   @override
   Widget build(BuildContext context) {
     final MyAppUser? user = Provider.of<MyAppUser?>(context);
-    //TODO: yo
     return Row(
       children: [
         Drawer(
