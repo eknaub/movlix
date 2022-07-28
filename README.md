@@ -1,4 +1,4 @@
-## Flutter Movie Web app 
+## Flutter movie web app 
 
 A movie web app developed with flutter using dart, firebase and tmdb api in the backend.
 A private project to learn more about ui designs, firebase and apis in general.
@@ -16,7 +16,7 @@ You can try the demo here https://movlix-fcd17.web.app/#/
 [![Firebase][firebase-shield]][firebase-url] [![TMDB][tmdb-shield]][tmdb-url]
 
 ## Features
-- User authentication using Firebase (login, register, password reset, anonymous login)
+- User authentication using Firebase (login, register, password reset, anonymous login, logout)
 - A selection of the latest and best movies using tmdb api
 - Add or remove movies to your favorites, watchlist or recently watched (using the three buttons in the movie previews)
 - Data (favorites, watchlist or recently watched) gets saved in the Firestore Database
