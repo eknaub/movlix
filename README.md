@@ -2,7 +2,6 @@
 
 A movie web app developed with flutter using dart, firebase and tmdb api in the backend.
 A private project to learn more about ui designs, firebase and apis in general.
-The current version (1.0) only shows movies, no shows, no actors etc.
 
 You can try the demo here https://movlix-fcd17.web.app/#/
 
