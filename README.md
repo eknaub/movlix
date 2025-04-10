@@ -5,12 +5,6 @@ A private project to learn more about ui designs, firebase and apis in general.
 
 You can try the demo here https://movlix-fcd17.web.app/#/
 
-<div align="center">
-    <a href="https://eduard-knaub.de">
-      www.eduard-knaub.de
-    </a>
-</div>
-
 ## Technologies
 [![Flutter][flutter-shield]][flutter-url] [![Dart][dart-shield]][dart-url]
 [![Firebase][firebase-shield]][firebase-url] [![TMDB][tmdb-shield]][tmdb-url]
